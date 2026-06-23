@@ -6,6 +6,7 @@ import { ProductFormComponent } from './shared/components/products-dash/product-
 import { ProductDetailComponent } from './shared/components/products-dash/product-detail/product-detail.component';
 import { FairsDashComponent } from './shared/components/fairs-dash/fairs-dash.component';
 import { UsersDashComponent } from './shared/components/users-dash/users-dash.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,15 @@ const routes: Routes = [
     {
     path : 'users',
     component: UsersDashComponent
+  },
+  
+    {
+    path : 'Page-Not-Found',
+    component : PageNotFoundComponent
+  },
+   {
+    path : '**',
+    redirectTo : 'Page-Not-Found'
   }
 ];
 
