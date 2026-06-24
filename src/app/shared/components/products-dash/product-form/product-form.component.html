@@ -1,6 +1,7 @@
 
 <div class="card">
     <div class="card-body">
+        <h3>{{isInEditMode? 'Update Product': 'Add Product'}}</h3>
         <form [formGroup]="productForm" (ngSubmit)="onAdd()">
             <div class="form-group">
                 <label for="pname">Product Name*</label>
