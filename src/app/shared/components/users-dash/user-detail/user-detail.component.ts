@@ -60,7 +60,7 @@ export class UserDetailComponent implements OnInit {
         .subscribe({
           next : res => {
             this._snackBar.openSnackBar(res.msg)
-            this._router.navigate(['user'])
+            this._router.navigate(['users'])
           },
           error : err => {
             this._snackBar.openSnackBar(err.msg)
