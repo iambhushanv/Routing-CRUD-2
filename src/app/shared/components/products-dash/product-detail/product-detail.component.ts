@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Iproduct } from 'src/app/shared/models/products';
 import { ProductsService } from 'src/app/shared/services/products.service';
 import { GetConfirmComponent } from './get-confirm/get-confirm.component';
-import { config } from 'rxjs';
 import { SnackBarService } from 'src/app/shared/services/snack-bar.service';
 
 @Component({
@@ -29,10 +28,9 @@ productObj !: Iproduct
   }
 
   getProduct(){
-    this._route.params.subscribe(param => {
+    this._route.params.subscribe((param: Params) => {
       this.productId = param['id']
-    })
-    if(this.productId){
+       if(this.productId){
       this._productService.fetchProductById(this.productId)
       .subscribe({
         next: res => {
@@ -43,6 +41,8 @@ productObj !: Iproduct
         }
       })
     }
+    })
+   
   }
 
   redirectToEdit(){

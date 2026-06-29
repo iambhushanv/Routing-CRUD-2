@@ -87,6 +87,10 @@ export class ProductFormComponent implements OnInit {
     })
   }
 
+   get formControls(){
+    return this.productForm.controls 
+  }
+
   onUpdate(){
     if(this.productForm.invalid){
       this.productForm.markAllAsTouched()

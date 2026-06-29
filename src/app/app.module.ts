@@ -19,6 +19,8 @@ import { ProductFormComponent } from './shared/components/products-dash/product-
 import { ProductDetailComponent } from './shared/components/products-dash/product-detail/product-detail.component';
 import { GetConfirmComponent } from './shared/components/products-dash/product-detail/get-confirm/get-confirm.component';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { UserFormComponent } from './shared/components/users-dash/user-form/user-form.component';
+import { UserDetailComponent } from './shared/components/users-dash/user-detail/user-detail.component';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     ProductDetailComponent,
     GetConfirmComponent,
     PageNotFoundComponent,
+    UserFormComponent,
+    UserDetailComponent,
 
   ],
   imports: [
