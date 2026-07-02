@@ -19,7 +19,7 @@
                         'badge-warning' : !user.isActive
                     }"
                     >
-                        {{user.isActive}}
+                        {{user.isActive? 'Yes': 'No'}}
                     </small>
                 </li>
             </ul>
