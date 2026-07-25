@@ -101,7 +101,9 @@ export class ProductFormComponent implements OnInit {
       next: res => {
         this._snackBar.openSnackBar(res.msg)
         this.isInEditMode = false
-        this._router.navigate(['products'])
+        this._router.navigate(['products', updatedObj.pid],
+          { queryParams : { cr : updatedObj.canReturn}}
+        )
       },
       error : err => {
         this._snackBar.openSnackBar(err.msg)

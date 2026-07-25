@@ -27,40 +27,40 @@ export class UserFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-     this.createUserForm()
+    this.createUserForm()
     this.addSkillControl()
     this.isAddSameHandler()
     this.currentAddressHandler()
     this.patchData()
   }
 
-  
+
   patchData() {
     this._routes.params.subscribe(param => {
       this.userId = param['userId']
-       if (this.userId) {
-      this.isInEditMode = true
-      this._userService.fetchUserById(this.userId)
-        .subscribe({
-          next: res => {
-            this.editUser = res
-            this.userForm.patchValue(this.editUser)
-            this._formUtilityService.patchFormArr(res.skills, this.skillsArr)
+      if (this.userId) {
+        this.isInEditMode = true
+        this._userService.fetchUserById(this.userId)
+          .subscribe({
+            next: res => {
+              this.editUser = res
+              this.userForm.patchValue(this.editUser)
+              this._formUtilityService.patchFormArr(res.skills, this.skillsArr)
 
-            if(this.editUser.userRole === 'Candidate'){
-              this.userForm.disable()
-            }
+              if (this.editUser.userRole === 'Candidate') {
+                this.userForm.disable()
+              }
 
-            if (this.formControls['address'].get('current')?.valid) {
-              this.formControls['isAddSame'].enable()
-              this.formControls['address'].get('permanent')?.patchValue(this.editUser.address.permanent)
+              if (this.formControls['address'].get('current')?.valid) {
+                this.formControls['isAddSame'].enable()
+                this.formControls['address'].get('permanent')?.patchValue(this.editUser.address.permanent)
+              }
+            },
+            error: err => {
+              console.log(err);
             }
-          },
-          error: err => {
-            console.log(err);
-          }
-        })
-    }
+          })
+      }
     })
   }
 
@@ -157,24 +157,30 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  onUpdate(){
-    if(this.userForm.invalid){
+  onUpdate() {
+    if (this.userForm.invalid) {
       this.userForm.markAllAsTouched()
-    }else{
-      let updateObj : Iuser = {...this.userForm.getRawValue(), userId : this.editUser.userId}
+    } else {
+      let updateObj: Iuser = { ...this.userForm.getRawValue(), userId: this.editUser.userId }
       this._userService.onUpdate(updateObj)
-      .subscribe({
-        next: res => {
-          this._snackBar.openSnackBar(res.msg)
-          this._router.navigate(['/users'])
-        },
-        error : err => {
-          this._snackBar.openSnackBar(err.msg)
-        }
-      })
+        .subscribe({
+          next: res => {
+            this._snackBar.openSnackBar(res.msg)
+            this.isInEditMode = false
+            this.userForm.reset()
+            this._router.navigate(['/users', updateObj.userId], 
+              {queryParams : { ur : updateObj.userRole}}
+            )
+          },
+          error: err => {
+            this._snackBar.openSnackBar(err.msg)
+          }
+        })
     }
   }
 
-
+  onSkillRemove(i: number) {
+    this.skillsArr.removeAt(i)
+  }
 
 }
