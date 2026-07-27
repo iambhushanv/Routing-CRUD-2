@@ -183,4 +183,13 @@ export class UserFormComponent implements OnInit {
     this.skillsArr.removeAt(i)
   }
 
+  canDeactive(){
+    if(this.userForm.dirty && this.isInEditMode){
+      return confirm(`Are you sure, you want to discard the changes ?`)
+    }else{
+      return true
+    }
+
+  }
+
 }

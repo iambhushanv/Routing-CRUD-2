@@ -113,4 +113,12 @@ export class ProductFormComponent implements OnInit {
 
 }
 
+canDeactive(){
+  if(this.productForm.dirty && this.isInEditMode){
+    return confirm(`Are you sure, you want to discard the changes ?`)
+  }else{
+    return true
+  }
+}
+
 }

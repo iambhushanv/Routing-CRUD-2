@@ -9,54 +9,102 @@ import { UsersDashComponent } from './shared/components/users-dash/users-dash.co
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 import { UserFormComponent } from './shared/components/users-dash/user-form/user-form.component';
 import { UserDetailComponent } from './shared/components/users-dash/user-detail/user-detail.component';
+import { AuthComponent } from './shared/components/auth/auth.component';
+import { AuthGuard } from './shared/services/auth.guard';
+import { CanDeactiveGuard } from './shared/services/can-deactive.guard';
+import { UserRoleGuard } from './shared/services/user-role.guard';
+import { ProductsResolver } from './shared/services/products.resolver';
 
 const routes: Routes = [
   {
-    path: 'home',
-    component: HomeDashComponent
+    path: '',
+    component: AuthComponent
   },
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    path: 'home',
+    component: HomeDashComponent,
+    canActivate: [AuthGuard, UserRoleGuard],
+    data: {
+      userRoles: ['buyer', 'admin', 'superAdmin']
+    }
   },
+  // {
+  //   path: '',
+  //   redirectTo: 'home',
+  //   pathMatch: 'full'
+  // },
   {
     path: 'products',
     component: ProductsDashComponent,
+    canActivateChild: [AuthGuard, UserRoleGuard],
+    data: {
+      userRoles: ['buyer', 'admin', 'superAdmin']
+    },
+    resolve : {
+      product : ProductsResolver
+    },
     children: [
       {
         path: 'addProduct',
-        component: ProductFormComponent
+        component: ProductFormComponent,
+        data: {
+          userRoles: ['buyer', 'admin', 'superAdmin']
+        }
       },
       {
         path: ':id',
-        component: ProductDetailComponent
+        component: ProductDetailComponent,
+        data: {
+          userRoles: ['buyer', 'admin', 'superAdmin']
+        }
       },
       {
         path: ':id/edit',
-        component: ProductFormComponent
+        component: ProductFormComponent,
+        canDeactivate: [CanDeactiveGuard],
+        data: {
+          userRoles: ['buyer', 'admin', 'superAdmin']
+        }
       },
     ]
   },
   {
     path: 'fairs',
-    component: FairsDashComponent
+    component: FairsDashComponent,
+    canActivate: [AuthGuard, UserRoleGuard],
+    data: {
+      userRoles: ['superAdmin']
+    }
   },
   {
     path: 'users',
     component: UsersDashComponent,
+    canActivateChild: [AuthGuard, UserRoleGuard],
+    data: {
+      userRoles: ['admin', 'superAdmin']
+    },
     children: [
       {
         path: 'addUser',
-        component: UserFormComponent
+        component: UserFormComponent,
+        data: {
+          userRoles: ['admin', 'superAdmin']
+        }
       },
       {
         path: ':userId',
-        component: UserDetailComponent
+        component: UserDetailComponent,
+        data: {
+          userRoles: ['admin', 'superAdmin']
+        }
       },
       {
         path: ':userId/edit',
-        component: UserFormComponent
+        component: UserFormComponent,
+        canDeactivate: [CanDeactiveGuard],
+        data: {
+          userRoles: ['admin', 'superAdmin']
+        }
       },
     ]
   },
